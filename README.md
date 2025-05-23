@@ -2,6 +2,12 @@
 
 A full-stack MEAN (MongoDB, Express, Angular, Node.js) application for managing tasks with user authentication.
 
+## Demo
+
+[Live Demo](https://task-management-frontend-vpsu.onrender.com)
+
+> **Note:** The app may take a few moments to load due to cold starts on Render.com.
+
 ## Features
 
 - User authentication (register, login) with JWT
