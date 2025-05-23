@@ -1,0 +1,79 @@
+<div class="container mt-4">
+  <!-- Error message -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Header with add task button -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Tasks</h2>
+    <button class="btn btn-primary" (click)="toggleAddForm()">
+      {{ showAddForm ? 'Cancel' : 'Add New Task' }}
+    </button>
+  </div>
+
+  <!-- Add task form -->
+  <div *ngIf="showAddForm" class="mb-4">
+    <app-task-form (taskAdded)="onTaskAdded($event)"></app-task-form>
+  </div>
+
+  <!-- Filter controls -->
+  <div class="mb-4">
+    <div class="btn-group" role="group">
+      <button 
+        type="button" 
+        class="btn" 
+        [class.btn-primary]="statusFilter === 'all'"
+        [class.btn-outline-primary]="statusFilter !== 'all'"
+        (click)="onFilterChange('all')">
+        All
+      </button>
+      <button 
+        type="button" 
+        class="btn" 
+        [class.btn-primary]="statusFilter === 'pending'"
+        [class.btn-outline-primary]="statusFilter !== 'pending'"
+        (click)="onFilterChange('pending')">
+        Pending
+      </button>
+      <button 
+        type="button" 
+        class="btn" 
+        [class.btn-primary]="statusFilter === 'in-progress'"
+        [class.btn-outline-primary]="statusFilter !== 'in-progress'"
+        (click)="onFilterChange('in-progress')">
+        In Progress
+      </button>
+      <button 
+        type="button" 
+        class="btn" 
+        [class.btn-primary]="statusFilter === 'completed'"
+        [class.btn-outline-primary]="statusFilter !== 'completed'"
+        (click)="onFilterChange('completed')">
+        Completed
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Task list -->
+  <div *ngIf="!isLoading">
+    <div *ngIf="filteredTasks.length === 0" class="text-center my-5">
+      <p class="lead">No tasks found. Add a new task to get started!</p>
+    </div>
+
+    <div *ngFor="let task of filteredTasks">
+      <app-task-item 
+        [task]="task" 
+        (taskUpdated)="onTaskUpdated($event)" 
+        (taskDeleted)="onTaskDeleted($event)">
+      </app-task-item>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,181 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  --primary-color: #0056b3;
+  --primary-dark: #004494;
+  --primary-light: #e6f0ff;
+  --accent-color: #ff6b00;
+  --text-light: #ffffff;
+  --text-dark: #333333;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+}
+
+html, body { 
+  height: 100%; 
+}
+
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+  background-color: #f5f5f5;
+}
+
+.container {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.card {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  border: none;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 86, 179, 0.25);
+  border-color: #80bdff;
+}
+
+/* Navbar styling */
+.navbar.bg-primary {
+  background-color: var(--primary-dark) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-dark .navbar-brand {
+  color: var(--text-light);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.navbar-dark .nav-link {
+  color: var(--text-light) !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.navbar-dark .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-dark .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--text-light);
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  border-color: var(--primary-color);
+}
+
+/* Filter buttons */
+.btn-group .btn {
+  border-width: 1px;
+  font-weight: 500;
+}
+
+.btn-group .btn.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.btn-group .btn.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Action buttons */
+.btn-edit {
+  color: var(--info-color);
+  border-color: var(--info-color);
+  background-color: white;
+}
+
+.btn-edit:hover {
+  background-color: var(--info-color);
+  color: white;
+}
+
+.btn-delete {
+  color: #dc3545;
+  border-color: #dc3545;
+  background-color: white;
+}
+
+.btn-delete:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.task-card {
+  margin-bottom: 1rem;
+  transition: transform 0.2s;
+  border-left: 4px solid var(--primary-color);
+}
+
+.task-card:hover {
+  transform: translateY(-3px);
+}
+
+.completed-task {
+  background-color: #e8f5e9;
+  border-left-color: var(--success-color);
+}
+
+.pending-task {
+  background-color: #fff8e1;
+  border-left-color: var(--warning-color);
+}
+
+.in-progress-task {
+  background-color: #e3f2fd;
+  border-left-color: var(--info-color);
+}
+
+/* Status badges */
+.badge.in-progress {
+  background-color: var(--info-color);
+  color: white;
+  font-weight: 500;
+}
+
+.badge.pending {
+  background-color: var(--warning-color);
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.badge.completed {
+  background-color: var(--success-color);
+  color: white;
+  font-weight: 500;
+}

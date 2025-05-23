@@ -1,0 +1,77 @@
+<div class="card">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">Add New Task</h5>
+  </div>
+  <div class="card-body">
+    <!-- Error message -->
+    <div *ngIf="error" class="alert alert-danger mb-3">
+      {{ error }}
+    </div>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <!-- Title Field -->
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="title" 
+          formControlName="title" 
+          [ngClass]="{'is-invalid': f['title'].touched && f['title'].errors}"
+        >
+        <div *ngIf="f['title'].touched && f['title'].errors" class="invalid-feedback">
+          <div *ngIf="f['title'].errors['required']">Title is required</div>
+          <div *ngIf="f['title'].errors['minlength']">Title must be at least 3 characters</div>
+          <div *ngIf="f['title'].errors['maxlength']">Title cannot exceed 100 characters</div>
+        </div>
+      </div>
+
+      <!-- Description Field -->
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea 
+          class="form-control" 
+          id="description" 
+          rows="3" 
+          formControlName="description"
+          [ngClass]="{'is-invalid': f['description'].touched && f['description'].errors}"
+        ></textarea>
+        <div *ngIf="f['description'].touched && f['description'].errors" class="invalid-feedback">
+          <div *ngIf="f['description'].errors['required']">Description is required</div>
+          <div *ngIf="f['description'].errors['minlength']">Description must be at least 5 characters</div>
+          <div *ngIf="f['description'].errors['maxlength']">Description cannot exceed 1000 characters</div>
+        </div>
+      </div>
+
+      <!-- Status Field -->
+      <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select 
+          class="form-select" 
+          id="status" 
+          formControlName="status"
+          [ngClass]="{'is-invalid': f['status'].touched && f['status'].errors}"
+        >
+          <option value="pending">Pending</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+        <div *ngIf="f['status'].touched && f['status'].errors" class="invalid-feedback">
+          <div *ngIf="f['status'].errors['required']">Status is required</div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="d-grid gap-2">
+        <button 
+          type="submit" 
+          class="btn btn-primary" 
+          [disabled]="taskForm.invalid || isSubmitting"
+        >
+          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+          Add Task
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
