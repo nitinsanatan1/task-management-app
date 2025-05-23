@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://task-management-backend-rnqs.onrender.com/api';
 
 @Injectable({
   providedIn: 'root'

@@ -9,7 +9,8 @@ A full-stack MEAN (MongoDB, Express, Angular, Node.js) application for managing 
 - Task filtering by status (pending, in-progress, completed)
 - Responsive UI design
 - Form validation
-- Secure API endpoints
+- Secure API endpoints with authentication & request validation
+- Dockerized for easy deployment
 
 ## Tech Stack
 
@@ -59,8 +60,8 @@ npm install
 3. Create a `.env` file in the backend directory with the following content:
 ```
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/task-management
-JWT_SECRET=your_jwt_secret_key_here
+MONGODB_URI={MONGODB_URI}
+JWT_SECRET={JWT_SECRET}
 JWT_EXPIRES_IN=7d
 ```
 
@@ -88,24 +89,24 @@ cd ../frontend/task-management-client
 npm install
 ```
 
-3. Start the Angular development server:
+3. Start the Angular development server with Node version 20.04:
 ```bash
-ng serve
+npm run start
 ```
 
 The frontend application will run on http://localhost:4200
 
 ## Docker Deployment
 
-### Local Docker Deployment
+### Local Docker Compose (Development)
+
+You can run both frontend and backend locally using Docker Compose:
 
 1. Make sure Docker and Docker Compose are installed on your machine.
-
 2. Navigate to the root directory of the project:
 ```bash
 cd task-management-app
 ```
-
 3. Build and start the containers:
 ```bash
 docker-compose up -d
@@ -115,85 +116,25 @@ The application will be available at:
 - Frontend: http://localhost
 - Backend API: http://localhost:5000/api
 
-### AWS Deployment
+### Production Deployment on Render.com
 
-#### Prerequisites for AWS Deployment
-- AWS account
-- AWS CLI configured
-- Basic knowledge of AWS services (EC2, ECR)
+For production, the frontend and backend are deployed as separate Docker services on Render.com:
 
-#### Deploying to AWS EC2 with Docker
+- Each service (frontend and backend) uses its own Dockerfile for deployment.
+- Environment variables for each service are configured in the Render.com dashboard.
+- The backend service exposes the API (e.g., https://your-backend-service.onrender.com/api)
+- The frontend service serves the Angular app (e.g., https://your-frontend-service.onrender.com)
+- Update the frontend environment or API base URL to point to the deployed backend API endpoint.
 
-1. Create an EC2 instance with Amazon Linux 2:
-   - Choose an appropriate instance type (t2.micro for testing)
-   - Configure security group to allow inbound traffic on ports 22 (SSH), 80 (HTTP), and 5000 (API)
-   - Create and download a key pair for SSH access
+#### Deployment Steps (Render.com)
 
-2. Install Docker and Docker Compose on the EC2 instance:
-```bash
-ssh -i your-key.pem ec2-user@your-ec2-instance-ip
-
-# Install Docker
-sudo yum update -y
-sudo amazon-linux-extras install docker -y
-sudo service docker start
-sudo usermod -a -G docker ec2-user
-sudo chkconfig docker on
-
-# Install Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-
-# Log out and log back in for changes to take effect
-exit
-```
-
-3. Copy the project files to the EC2 instance:
-```bash
-scp -i your-key.pem -r task-management-app ec2-user@your-ec2-instance-ip:~
-```
-
-4. SSH into the EC2 instance and start the application:
-```bash
-ssh -i your-key.pem ec2-user@your-ec2-instance-ip
-cd task-management-app
-
-# Update the environment variables in docker-compose.yml if needed
-# Start the application
-docker-compose up -d
-```
-
-5. Access your application:
-   - Frontend: http://your-ec2-instance-ip
-   - Backend API: http://your-ec2-instance-ip:5000/api
-
-#### Alternative: Using AWS Elastic Container Service (ECS)
-
-For a more scalable and managed solution, you can use AWS ECS:
-
-1. Create ECR repositories for your images:
-```bash
-aws ecr create-repository --repository-name task-management-frontend
-aws ecr create-repository --repository-name task-management-backend
-```
-
-2. Build, tag and push your Docker images:
-```bash
-# Login to ECR
-aws ecr get-login-password --region your-region | docker login --username AWS --password-stdin your-aws-account-id.dkr.ecr.your-region.amazonaws.com
-
-# Build and push backend
-cd backend
-docker build -t your-aws-account-id.dkr.ecr.your-region.amazonaws.com/task-management-backend:latest .
-docker push your-aws-account-id.dkr.ecr.your-region.amazonaws.com/task-management-backend:latest
-
-# Build and push frontend
-cd ../frontend/task-management-client
-docker build -t your-aws-account-id.dkr.ecr.your-region.amazonaws.com/task-management-frontend:latest .
-docker push your-aws-account-id.dkr.ecr.your-region.amazonaws.com/task-management-frontend:latest
-```
-
-3. Create an ECS cluster, task definitions, and services using the AWS Management Console or AWS CLI.
+1. Push your code to a Git repository (GitHub, GitLab, etc.).
+2. Create two new Web Services on Render.com:
+   - One for the backend (select the backend Dockerfile)
+   - One for the frontend (select the frontend Dockerfile)
+3. Set environment variables for each service as needed (e.g., MongoDB URI, JWT secret, etc.).
+4. Deploy both services. Render.com will build and run each container separately.
+5. Update your frontend's API endpoint to use the Render backend URL.
 
 ## API Documentation
 
@@ -399,7 +340,3 @@ task-management-app/
 ├── docker-compose.yml
 └── README.md
 ```
-
-## License
-
-This project is licensed under the MIT License.
